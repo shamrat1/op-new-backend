@@ -1,0 +1,12 @@
+.reg{
+            padding-top: 20px;
+            padding-bottom: 60px;
+            background-color: #4987B8;;
+        }
+        .regbtn{margin-left: 130px;}
+        .regbtn {color: #fff !important;
+          background-color: #0c4aff !important;}
+        .regbtn:hover{
+          color: #fff;
+          background-color: #0cb4e6 !important;
+        }

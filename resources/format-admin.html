@@ -1,0 +1,105 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">All Tournaments</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Tournaments</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="ml-4">
+    // main contents go here
+</div>
+
+
+
+
+
+
+<div class="row">
+    <div class="col-sm-9 col-md-9">
+        <div class="headline">
+            <h4>
+                <CENTER>CRICKET</CENTER>
+            </h4>
+        </div>
+        <div class="table_content">
+            @foreach($matches as $match)
+                <div class="mb-5">
+                    <div class="team_name">
+                        <a id="match_name_team-1" style="">{{ $match->team1 }}</a>
+                        <a class="vs">vs</a>
+                        <a id="match_name_team-2">{{ $match->team2 }}</a>
+                        {{-- <a>A VS B</a> --}}
+                        <p id="pubdate">
+                            {{ Carbon\Carbon::parse($match->match_time)->format('d-M-Y h:m A') }}
+                        </p>
+                    </div>
+                    <div class="beat_details">
+                        @foreach($match->betsForMatch as $option)
+                            @if($option->isLive && $option->isPublishedResult != true)
+                                <div class="sport-table">
+                                    <h4 class="all_span"> {{ $option->betOption->name }}</h4>
+                                    @foreach($option->betDetails as $details)
+                                        <div class="col-xs-6 col-md-4 back_style">
+                                            <button class="btn btn-block for_btn" style="" id="trigger-modal"
+                                                data-toggle="modal" data-target="#myModal"
+                                                data-option="{{ $option->betOption->name }}"
+                                                data-bets-details-id="{{ $details->id }}"
+                                                data-match_id="{{ $match->id }}" data-name="{{ $details->name }}"
+                                                data-value="{{ $details->value }}">
+                                                {{ $details->name }}
+                                                {{ $details->value }}
+
+                                            </button>
+                                        </div>
+                                        @if($loop->last) <br><br> @endif
+                                        @endforeach
+                                        @if($loop->last) <br><br> @endif
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="uppersection">
+            <div class="highlight">
+                <span style="color: #ffff;">Advance</span>
+                <div id="list">
+
+                </div>
+            </div>
+            <!-- Live score start -->
+
+            <div class="live_score" style="margin-top: 50px; margin-bottom: 50px;">
+                <h2 style="color: #ffff;">Live Score</h2>
+                <h3 style="font-size: 20px;color: #F4FF05;">Cricket International</h3>
+                <article class="game-result-cust" style="font-size: 12px;">
+                    <div class="game-info-main">
+                        <div class="game-info-team" id="score-team-1">
+                            <span></span>
+                        </div>
+                        <div class="game-info-middle"><span>VS</span></div>
+                        <div class="game-info-team" id="score-team-2">
+                            <span></span>
+                        </div>
+                    </div>
+
+                </article>
+
+            </div>
+        </div>
+    </div>
+</div>

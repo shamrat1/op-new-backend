@@ -1,0 +1,17 @@
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+
+    .pageBreak{ page-break-inside:avoid; page-break-after:always; page-break-before: always;}
+}
+
+.pageBreak{ page-break-inside:avoid; page-break-after:always; page-break-before: always;}
+
+/*@media print {*/
+    /*footer {page-break-after: always;}*/
+/*}*/
+
+

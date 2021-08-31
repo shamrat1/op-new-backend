@@ -1,0 +1,148 @@
+table.emp_list td, table.emp_list th {
+    padding: 2px 14px !important;
+    vertical-align: top !important;
+    border-top: 1px solid #dee2e6 !important;
+    font-size: 14px !important;
+}
+
+table.shiftSetting th,.department th{
+    font-size: 14px;
+}
+table.lines th{
+    font-size: 12px;
+}
+
+.table.units{
+    font-size: 14px;
+}
+
+.singWrap {
+    position: relative;
+}
+
+.singWrap img {
+    position: ;
+    position: absolute;
+    top: -25px;
+    left: 25px;
+    width: 42px;
+}
+
+.card_wrapper {
+    /* width: 92%; */
+    display: block;
+    overflow: hidden;
+    margin: 4px 0px 3px 24px;
+    width: 2.1in;
+    height: 3.3in;
+    border: 1px solid #000;
+    border-radius: 10px;
+    position: relative;
+    font-family: 'AdorshoLipi', sans-serif !important;
+}
+
+.cardLogo {
+    width: 194PX;
+    margin: -16px 0 -14px -1px;
+    height: 77px !important;
+    border-radius: 33px;
+}
+
+.empCard {
+    padding: 2px;
+    margin: 2px;
+}
+
+
+.cardTitle {
+    font-size: 11px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+}
+
+.bPageTitle {
+    margin: 43px 0px;
+}
+
+
+ul.empList .list-group-item {
+    font-size: 8px !important;
+}
+
+.cardfooter strong {
+    border-top: 1px solid #000;
+    padding: 1px 0px;
+    font-size: 6px;
+}
+
+.cardFooterTitle {
+    font-size: 9px;
+    text-align: center;
+    padding: 3px 0;
+    font-weight: bold;
+}
+
+ul.empList li {
+    padding: 1px 0px;
+    border: 0px solid;
+}
+
+.printBtnGroup {
+    position: absolute;
+    right: -7px;
+    top: -12px;
+    /* padding: -12px; */
+}
+
+
+
+.row.cardfooter {
+    /* margin: -28px 0 -34px 0; */
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    /* right: auto; */
+    width: 100%;
+}
+
+.footerWraper {
+    position: relative;
+}
+.profile-user-img {
+    margin: 0 auto !important;
+    width: 70px !important;
+    padding: 1px !important;
+    border: 1px solid #adb5bd !important;
+    height: 70px !important;
+}
+.profile-username {
+    font-size: 11px !important;
+    margin-top: 3px !important;
+}
+.designationTitle {
+    font-size: 10px;
+    color: #000 !important;
+    margin: 4px;
+}
+
+/*css to remove extra bold*/
+.label-control {
+    font-weight: normal !important;
+}
+
+.cardFooterTitle {
+    position: absolute;
+    bottom: 0px;
+    left: 33px;
+}
+/*for page break*/
+.page_break {
+    page-break-after: always;
+}
+
+#search_emp,.search_date  {
+    text-transform: full-size-kana;
+}
+
+
