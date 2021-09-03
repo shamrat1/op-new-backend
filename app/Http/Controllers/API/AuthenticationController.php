@@ -30,7 +30,7 @@ class AuthenticationController extends Controller{
         $data = $request->all();
         $sponser = User::where('username',$data["sponser"])->first();
         // dd(empty($data['club_id']));
-        User::create([
+        $user = User::create([
             'name' => $data['name'],
             'username' => $data['username'],
             'email' => $data['email'],
@@ -41,8 +41,13 @@ class AuthenticationController extends Controller{
             'club_id' => empty($data['club_id']) ? 1 : $data['club_id']
         ]);
 
+        Credit::create([
+            'user_id' => $user->id,
+            'amount' => 0
+        ]);
+
         return response()->json([
-            "status" => "OK"
+            "status" => "OK",
         ]);
 
     }
@@ -54,11 +59,7 @@ class AuthenticationController extends Controller{
             // if($user->status){
                 $token =  $user->createToken('op365-2021')->accessToken;
                 $user['token'] = $token;
-                return response()->json([
-                    'status' => "success",
-                    'msg' => "User Authenticated successfully.",
-                    "data" => $user,
-                ], 200);
+                return response()->json(AccountController::getBasicResponse());
             // }else{
             //     return response()->json([
             //         'status' => "failed",

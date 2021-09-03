@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+// header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Methods: GET,HEAD,POST");
 
 Route::group(["namespace" => "API"],function(){
     Route::get('/matches','MatchController@getMatches')->name('api.matches');
@@ -29,7 +31,7 @@ Route::group(["namespace" => "API"],function(){
     Route::post('/login','AuthenticationController@login');
     Route::post('/registration','AuthenticationController@register');
 
-    Route::group(['middleware' => 'auth:api'],function(){
+    // Route::group(['middleware' => 'auth:api'],function(){
         // place bet
         Route::post('/place/bet','UserBetController@userNewBet');
 
@@ -51,6 +53,12 @@ Route::group(["namespace" => "API"],function(){
         // bet history
         Route::get('/bet/history',"AccountController@betHistory");
         
+    // });
+
+    Route::group(['prefix' => 'game'],function(){
+        Route::group(['prefix' => 'coin-toss'],function(){
+            Route::get("/start","CoinGameController@start");
+        });
     });
 });
 

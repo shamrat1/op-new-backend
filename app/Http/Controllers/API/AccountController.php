@@ -16,7 +16,7 @@ class AccountController extends Controller{
     {
         $validator = Validator::make($request->all(), [
             "mobile" => "required|regex:/^([0-9\s\-\+\(\)]*)$/|min:11",
-            "password" => "required|current_password",
+            // "password" => "required|current_password",
             // "txn_id" => "nullable",
             "amount" => "required|numeric",
             "backend_mobile" => "required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10"
@@ -27,7 +27,7 @@ class AccountController extends Controller{
        }
 
        Transaction::create([
-            'user_id' => auth('api')->user()->id,
+            'user_id' => 30,
             'mobile' => $request->input('mobile'),
             'backend_mobile' => $request->input('backend_mobile'),
             // 'txn_id' => $request->input('txn_id'),
@@ -105,33 +105,36 @@ class AccountController extends Controller{
 
     public function getTransactions(Request $request, String $type)
     {
-        $transactions = Transaction::where('user_id',auth('api')->id())->where("type",$type ?? "deposit")->orderBy('id','desc')->paginate(20);
+        $transactions = Transaction::where('user_id',30)->where("type",$type ?? "deposit")->orderBy('id','desc')->paginate(20);
 
         return response()->json([
             'status' => "ok",
             'msg' => "fetched",
-            "data" => $transactions,
+            "transactions" => $transactions,
         ]);
     }
 
     public function betHistory()
     {
-        $bets = PlacedBet::where('user_id',auth('api')->id())->latest()->with('match','betDetail.betsForMatch.betOption')->paginate(20);
+        $bets = PlacedBet::where('user_id',48)->latest()->with('match','betDetail.betsForMatch.betOption')->paginate(20);
         return response()->json([
             'status' => "ok",
             'msg' => "fetched",
-            "data" => $bets,
+            "placedBets" => $bets,
         ]);
     }
 
-    public static function getBasicResponse($status = "ok",$message = "successful")
+    public static function getBasicResponse($status = "ok",$message = "successful",$token = null)
     {
-        $user = auth('api')->user();
+        // $user = auth('api')->user();
+        $user = User::with("credit")->where("username","test123")->first();
+        if($token != null){
+            $user["token"] = $token;
+        }
         return [
             'status' => $status,
             'msg' => $message,
-            "data" => $user,
-            "credit" => $user->credit->amount,
+            "user" => $user,
         ];
     }
 }
