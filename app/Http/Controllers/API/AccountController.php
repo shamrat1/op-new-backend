@@ -126,10 +126,9 @@ class AccountController extends Controller{
 
     public static function getBasicResponse($status = "ok",$message = "successful",$token = null)
     {
-        // $user = auth('api')->user();
-        $user = User::with("credit")->where("username","test123")->first();
+        $user = auth('api')->user();
         if($token != null){
-            $user["token"] = $token;
+            $user->token = $token;
         }
         return [
             'status' => $status,

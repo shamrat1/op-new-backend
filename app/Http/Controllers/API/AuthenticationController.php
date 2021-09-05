@@ -59,7 +59,13 @@ class AuthenticationController extends Controller{
             // if($user->status){
                 $token =  $user->createToken('op365-2021')->accessToken;
                 $user['token'] = $token;
-                return response()->json(AccountController::getBasicResponse());
+                return response()->json(
+                    [
+                        'status' => "ok",
+                        'msg' => "login successful",
+                        "user" => $user,
+                    ]
+                );
             // }else{
             //     return response()->json([
             //         'status' => "failed",
