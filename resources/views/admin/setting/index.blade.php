@@ -156,7 +156,8 @@
                 </form>
             </div>
         </div>
-        <div class="card col-6 card-outline card-primary">
+        <div class="row">
+        <div class="card col-5 card-outline card-primary mx-2">
             <div class="card-header">
                 Bet Settings
             </div>
@@ -186,7 +187,7 @@
                 </form>
             </div>
         </div>     
-        <div class="card col-6 card-outline card-primary">
+        <div class="card col-5 card-outline card-primary">
             <div class="card-header">
                 Payment Settings
             </div>
@@ -215,6 +216,65 @@
                     </div>
                 </form>
             </div>
-        </div>      
+        </div>
+        </div>
+        
+        <div class="card col-6 card-outline card-primary">
+            <div class="card-header">
+                Settings
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive">
+                    <thead>
+                        <th>#</th>
+                        <th>Key</th>
+                        <th>Value</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <form action="{{ route('setting.store') }}" method="POST">
+                                @csrf
+                                <td></td>
+                                <td>
+                                    <input id="key-field" type="text" name="key" placeholder="Key" class="form-control">
+                                </td>
+                                <td>
+                                    <input id="value-field" type="text" name="value" placeholder="Value" class="form-control">   
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-success"><i class="fa fa-save"></i></button>
+                                </td>
+                            </form>
+                            
+                        </tr>
+                        @forelse($listSettings as $item)
+                            <tr>
+                                <td>{{$item->id}}</td>
+                                <td>{{$item->key}}</td>
+                                <td>{{$item->value}}</td>
+                                <td>
+                                    <button id="editSetting"
+                                    data-key="{{$item->key}}"
+                                    data-value="{{$item->value}}"
+                                    class="btn btn-sm btn-warning"
+                                    ><i class="fa fa-edit"></i></button>
+                                </td>
+                            </tr>
+                        @empty
+                            <td colspan="4">No Items Found.</td>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
 	</div>
+@endsection
+@section("script")
+    <script>
+        $(document).on("click","#editSetting",function(){
+            $("#key-field").val($(this).data("key"));
+            $("#value-field").val($(this).data("value"));
+        });
+    </script>
 @endsection

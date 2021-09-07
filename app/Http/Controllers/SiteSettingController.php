@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\SiteSetting;
 use App\PaymentSetting;
 use App\BetSetting;
+use App\Setting;
 use Illuminate\Http\Request;
 
 class SiteSettingController extends Controller
@@ -13,7 +14,8 @@ class SiteSettingController extends Controller
         $setting = SiteSetting::get()->first();
         $payment = PaymentSetting::get()->first();
         $bet = BetSetting::get()->first();
-        return view('admin.setting.index',compact(['setting','payment','bet']));
+        $listSettings = Setting::get();
+        return view('admin.setting.index',compact(['setting','payment','bet',"listSettings"]));
     }
 
     public function createOrPatch(Request $request){

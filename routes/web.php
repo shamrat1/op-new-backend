@@ -45,6 +45,10 @@ Route::middleware('role:Admin,Admin1,Editor')->prefix('admin')->group(function (
 	//admin banner routes
 	Route::get('/banners','BannerImageController@addbanner')->name('banners.addbanner');
 	Route::post('/banners','BannerImageController@store')->name('banners.store');
+	
+	// settings
+	Route::get("/setting","SettingController@index")->name("setting.index");
+	Route::post("/setting/store","SettingController@store")->name("setting.store");
 
 	//site settings
 	Route::get('/setting', 'SiteSettingController@index')->name('setting');
