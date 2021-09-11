@@ -59,6 +59,7 @@ class AuthenticationController extends Controller{
             // if($user->status){
                 $token =  $user->createToken('op365-2021')->accessToken;
                 $user['token'] = $token;
+                $user->credit;
                 return response()->json(
                     [
                         'status' => "ok",
@@ -75,7 +76,7 @@ class AuthenticationController extends Controller{
             // }
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Unauthorised'], 419);
         }
     }
 }
