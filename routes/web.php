@@ -49,6 +49,7 @@ Route::middleware('role:Admin,Admin1,Editor')->prefix('admin')->group(function (
 	// settings
 	Route::get("/setting","SettingController@index")->name("setting.index");
 	Route::post("/setting/store","SettingController@store")->name("setting.store");
+	Route::delete("/setting/{key}","SettingController@delete")->name("setting.delete");
 
 	//site settings
 	Route::get('/setting', 'SiteSettingController@index')->name('setting');

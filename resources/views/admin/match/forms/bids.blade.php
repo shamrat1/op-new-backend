@@ -4,9 +4,10 @@
         return $role->name != "Admin" || $role->name != "Admin1";
     });
     $isAdmin = count($roles->where('name','Admin')) > 0 || count($roles->where('name','Admin1')) > 0;
+    $correctBets = $match->BetsForMatch->pluck("correctBet")->toArray();
 @endphp
 <div class="row">
-    <table class="table">
+    <table class="table" id="bidsTable">
         <thead>
             <tr>
                 <th>#</th>
@@ -33,14 +34,14 @@
                     <td>{{ $item->bet_value }}</td>
                     <td>{{ $item->amount }}</td>
                     <td>
-                        @if($item->isWin)
+                        @if(in_array($item->bet_option_detail_id,$correctBets))
                             <p class="badge badge-success">Win</p>
                         @else
                             <p class="badge badge-info">Loss / Not Published</p>
                         @endif
                         {{-- @dd($item->bet_option_detail_id) --}}
                         <!-- @php
-                            $correct = $item->isCorrect($item->bet_option_detail_id);
+                            $correct = in_array($item->bet_option_detail_id,$correctBets);
                         @endphp
                         @if ($correct)
                             @php
@@ -76,3 +77,9 @@
         </tbody>
     </table>
 </div>
+
+@push("js")
+
+    $("#bidsTable").datatable();
+
+@endpush

@@ -41,10 +41,10 @@
             @php
                 $userWin = 0;
                 $returnToUser = 0;
-                $houseHas = 0; 
+                $houseHas = 0;
+                $correctBets = $match->BetsForMatch->pluck("correctBet")->toArray();
                 foreach ($match->bids as $bid) {
-                    // dd($bid->isCorrect($bid->betDetail->id),$bid->betDetail->id);
-                    if(!empty($bid->betDetail) && $bid->isCorrect($bid->betDetail->id)){
+                    if(!empty($bid->betDetail) && in_array($bid->betDetail->id,$correctBets)){
                         $returnAmount = $bid->amount * $bid->bet_value;
                         $returnToUser += $returnAmount;
                         $userWin++;

@@ -26,36 +26,34 @@ class UserBetController extends Controller
         ]);
 
         if($Validator->fails()){
-            return response()->json($Validator->messages(),401);
+            return response()->json($Validator->messages(),419);
         }
         $validated = $request->all();
         $betSetting = BetSetting::first();
         if ($request->amount < $betSetting->lowest_amount ||  $request->amount > $betSetting->highest_amount){
-            alertify()->error('Error placing bet. Try again.')->position('top right');
-            return redirect()->back();
+            return response()->json("Error placing bet. Try again.",419);
         }
-        $betSetiing = BetSetting::get()->first();
+
+        // $betSetiing = BetSetting::get()->first();
         $details = BetOptionDetail::find($validated['bets-details-id']);
         // check if bet option is live or not 
         $betForMatch = $details->betsForMatch;
+
             try{
                 if ($betForMatch->isLive && $betForMatch->score) {
                     DB::beginTransaction();
-                    $amount = $request->input('amount');
+                    $amount = $request->amount;
+
                     $sponserCommission = number_format($this->commissionCalculation(1, $request->amount), 2, '.', '');
                     $clubCommission = number_format($this->commissionCalculation(2, $request->amount), 2, '.', '');
                     $user = auth('api')->user();
-                    // // dd($sponserCommission,$clubCommission);
                     $credit = Credit::where('user_id', $user->id)->first();
 
                     // Checking if user has enough amount. if not, redirect with error message
                     if (empty($credit) || $credit->amount < $amount) {
-                        alertify("Not enough Credit.")->clickToClose();
-                        $error = ["message" => "Not enough credit"];
-                        return redirect()->back()->withErrors($error);
+                        return response()->json("Not Enough Credit in account.",419);
                     }
 
-                    // dd(number_format($amount, 2, '.', ''), $sponserCommission,$clubCommission);
                     $credit->amount = $credit->amount - $amount;
                     $credit->update();
                     // add record in transaction table
@@ -68,7 +66,7 @@ class UserBetController extends Controller
                     $transaction->save();
 
                     PlacedBet::create([
-                        "user_id" => auth()->user()->id,
+                        "user_id" => $user->id,
                         "match_id" => $validated['match_id'],
                         "bet_option_detail_id" => $validated['bets-details-id'],
                         "transaction_id" => $transaction->id,
@@ -86,13 +84,13 @@ class UserBetController extends Controller
                         $this->clubCommission($user->id, $club, $clubCommission);
                     }
                     DB::commit();
-                    alertify()->success("Bet is placed successfully.");
-                    return redirect()->back();
+                    return AccountController::getBasicResponse();
                 }
+                return response()->json("Current Bet Option is not live. Try again later.",400);
+
             }catch (\Exception $e){
                 DB::rollBack();
-                alertify()->error('Error placing bet. Try again.')->position('top right');
-                return redirect()->back();
+                return response()->json("Error Placing Bet.",400);
             }
     }
 }

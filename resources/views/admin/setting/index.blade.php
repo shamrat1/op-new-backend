@@ -243,7 +243,11 @@
                                     <input id="value-field" type="text" name="value" placeholder="Value" class="form-control">   
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-success"><i class="fa fa-save"></i></button>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-success"><i class="fa fa-save"></i></button>
+                                        <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-times"></i></button>
+                                    </div>
+                                    
                                 </td>
                             </form>
                             
@@ -254,11 +258,18 @@
                                 <td>{{$item->key}}</td>
                                 <td>{{$item->value}}</td>
                                 <td>
-                                    <button id="editSetting"
-                                    data-key="{{$item->key}}"
-                                    data-value="{{$item->value}}"
-                                    class="btn btn-sm btn-warning"
-                                    ><i class="fa fa-edit"></i></button>
+                                    <div class="btn-group">
+                                        <button id="editSetting"
+                                        data-key="{{$item->key}}"
+                                        data-value="{{$item->value}}"
+                                        class="btn btn-sm btn-warning"
+                                        ><i class="fa fa-edit"></i></button>
+                                        <form action="{{ route('setting.delete',$item->key) }}" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button class="btn btn-sm btn-danger" onClick="return confirm('Do you really want to delete this setting? it might affect games experience or even cause apps to crash.');"><i class="fa fa-trash"></i></button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -275,6 +286,9 @@
         $(document).on("click","#editSetting",function(){
             $("#key-field").val($(this).data("key"));
             $("#value-field").val($(this).data("value"));
+        });
+        $(document).on("keyup","#key-field",function(e){
+            $("#key-field").val($(this).val().replaceAll(" ","-"));
         });
     </script>
 @endsection

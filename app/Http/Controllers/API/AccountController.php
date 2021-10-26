@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\BetSetting;
 use App\Credit;
 use App\Http\Controllers\Controller;
 use App\PlacedBet;
+use App\Setting;
+use App\SiteSetting;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -27,7 +30,7 @@ class AccountController extends Controller{
        }
 
        Transaction::create([
-            'user_id' => 30,
+            'user_id' => auth('api')->id(),
             'mobile' => $request->input('mobile'),
             'backend_mobile' => $request->input('backend_mobile'),
             // 'txn_id' => $request->input('txn_id'),
@@ -103,9 +106,16 @@ class AccountController extends Controller{
         return response()->json($this->getBasicResponse("ok","User Information Fetched"));
     }
 
-    public function getTransactions(Request $request, String $type)
+    public function getTransactions(String $type = null)
     {
-        $transactions = Transaction::where('user_id',30)->where("type",$type ?? "deposit")->orderBy('id','desc')->paginate(20);
+        // $user = auth('api')->user();
+        // return response()->json($type);
+        $transactions = Transaction::where('user_id',auth('api')->id())
+        ->when($type,function($q) use($type){
+            return $q->where("type",$type);
+        })
+        ->orderBy('id','desc')
+        ->paginate(20);
 
         return response()->json([
             'status' => "ok",
@@ -116,7 +126,7 @@ class AccountController extends Controller{
 
     public function betHistory()
     {
-        $bets = PlacedBet::where('user_id',48)->latest()->with('match','betDetail.betsForMatch.betOption')->paginate(20);
+        $bets = PlacedBet::where('user_id',auth('api')->id())->latest()->with('match','betDetail.betsForMatch.betOption')->paginate(20);
         return response()->json([
             'status' => "ok",
             'msg' => "fetched",
@@ -130,10 +140,20 @@ class AccountController extends Controller{
         if($token != null){
             $user->token = $token;
         }
+        $user->load("credit");
         return [
             'status' => $status,
             'msg' => $message,
             "user" => $user,
         ];
+    }
+
+    public function getSettings()
+    {
+        return response()->json([
+            "settings" => Setting::get(),
+            "site_setting" => SiteSetting::first(),
+            "bet_setting" => BetSetting::first(),
+        ]);
     }
 }

@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 
 Route::group(["namespace" => "API"],function(){
     Route::get('/matches','MatchController@getMatches')->name('api.matches');
+    Route::get('/settings/xxxyyyzzz','AccountController@getSettings');
 
     Route::get('/registration/essential',function(){
         $clubs = Club::get();
@@ -31,7 +32,14 @@ Route::group(["namespace" => "API"],function(){
     Route::post('/login','AuthenticationController@login');
     Route::post('/registration','AuthenticationController@register');
 
-    // Route::group(['middleware' => 'auth:api'],function(){
+    Route::group(['middleware' => 'auth:api'],function(){
+
+        // game history place
+        Route::post("/place/game/history",'GameHistoryController@placeHistory');
+
+        // game history place verify
+        Route::post("/place/game/history/{id}",'GameHistoryController@verifyHistory');
+
         // place bet
         Route::post('/place/bet','UserBetController@userNewBet');
 
@@ -48,12 +56,12 @@ Route::group(["namespace" => "API"],function(){
         Route::get('/user/info',"AccountController@userInfo");
 
         // user transactions
-        Route::get('/transactions/{type}',"AccountController@getTransactions");
+        Route::get('/transactions/{type?}',"AccountController@getTransactions");
 
         // bet history
         Route::get('/bet/history',"AccountController@betHistory");
         
-    // });
+    });
 
     Route::group(['prefix' => 'game'],function(){
         Route::group(['prefix' => 'coin-toss'],function(){

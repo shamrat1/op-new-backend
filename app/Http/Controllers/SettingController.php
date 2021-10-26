@@ -28,4 +28,11 @@ class SettingController extends Controller
 
         return redirect()->back();
     }
+
+    public function delete(Request $request, String $key)
+    {
+        // dd($key);
+        Setting::where("key",$key)->first()->delete();
+        return redirect()->back();
+    }
 }

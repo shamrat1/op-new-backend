@@ -194,10 +194,22 @@ class MatchController extends Controller
      */
     public function show($id)
     {   
-        $tournaments = Tournament::all();
-        $match = Match::with(['bids', 'bids.betDetail','bids.user','BetsForMatch', 'BetsForMatch.betOption', 'BetsForMatch.betDetails','tournament'])->find($id);
-        $betOptions = BetOption::all();
+        $tournaments = Tournament::select(["id","name"])->get();
+        $match = Match::with(
+            [
+                "bids" => function($q){
+                    $q->latest();
+                },
+                'bids.betDetail:id,bets_for_match_id',
+                'bids.betDetail.betsForMatch:id,bet_option_id',
+                'bids.betDetail.betsForMatch.betOption:id,name',
+                'bids.user:id,username',
+                'BetsForMatch','tournament:id,name'
+            ]
+        )->find($id);
+        $betOptions = BetOption::select(["id","name"])->get();
         $betOptionsSelected = BetsForMatch::where('match_id','=',$id)->with(['betOption', 'betDetails'])->get();
+        // dd($betOptionsSelected->pluck("correctBet"));
         return view('admin.match.show')->with([
             'match' => $match,
             'betOptions' => $betOptions,
