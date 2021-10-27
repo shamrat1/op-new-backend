@@ -101,12 +101,12 @@ class UserController extends Controller
 			'password' => Hash::make($request->input('password')),
 		]);
         $after = User::where('id',$id)->select(['username'])->first()->toJson();;
-        TrackActivity::create([
-            'author' => auth()->user()->username,
-            'model' => 'Password Changed',
-            'before' => $before,
-            'after' => $after
-        ]);
+        // TrackActivity::create([
+        //     'author' => auth()->user()->username,
+        //     'model' => 'Password Changed',
+        //     'before' => $before,
+        //     'after' => $after
+        // ]);
 		alertify()->success('User Password Updated.')->position('bottom right');
 		return redirect()->route('user.index');
 	}
@@ -120,12 +120,12 @@ class UserController extends Controller
 			'amount' => $request->input('credit')
 		]);
         $after = User::where('id',$id)->with(['credit:id,user_id,amount'])->select(['id','username'])->first()->toJson();
-        TrackActivity::create([
-           'author' => auth()->user()->username,
-            'before' => $before,
-            'after' => $after,
-            'model' => 'Credit'
-        ]);
+        // TrackActivity::create([
+        //    'author' => auth()->user()->username,
+        //     'before' => $before,
+        //     'after' => $after,
+        //     'model' => 'Credit'
+        // ]);
 		alertify()->success('User Credit Updated.')->position('bottom right');
 		return redirect()->back();
 	}
