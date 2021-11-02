@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 // header("Access-Control-Allow-Origin: *");
 // header("Access-Control-Allow-Methods: GET,HEAD,POST");
 
-Route::group(["namespace" => "API"],function(){
+Route::group(["namespace" => "API","middleware" => "cors"],function(){
     Route::get('/matches','MatchController@getMatches')->name('api.matches');
     Route::get('/settings/xxxyyyzzz','AccountController@getSettings');
 
