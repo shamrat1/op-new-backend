@@ -171,6 +171,12 @@
 							<input type="text" name="mobile" value="{{ $user->mobile }}" class="form-control">
 					</div>
 				</div>
+				<div class="row">
+					<div class="col form-group">
+					<input type="checkbox" id="scales" name="is_allowed_transaction" @if($user->is_allowed_transaction) checked @endif>
+					<label for="scales">&nbsp; Allow Transaction</label>
+					</div>
+				</div>
 				<hr>
 				<div class="row">
 					<div class="col text-right">

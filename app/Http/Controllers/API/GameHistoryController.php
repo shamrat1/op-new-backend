@@ -93,7 +93,9 @@ class GameHistoryController extends Controller
             DB::rollBack();
             return response()->json($e->getMessage(),422);
         }
-        return response()->json(["gameHistory" => $gameHistory,"reward" => $amount ?? 0]);
+        return response()->json([
+            "gameHistory" => $gameHistory,
+            "credits" => $credit->amount]);
 
     }
 }

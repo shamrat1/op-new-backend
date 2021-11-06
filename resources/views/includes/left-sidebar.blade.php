@@ -89,7 +89,14 @@
                         </ul>
                 </li>
             @endrole
+            <li class="nav-item {{ active('admin/match') }}">
+                        <a href="{{ route('game.index') }}" class="nav-link {{ active('admin/match') }}">
+                            <i class="fas fa-list text-white"></i>
+                            <p>Game History </p>
+                        </a>
+                        </li>
             @role(['Editor','admin1'])
+            
             <li class="nav-item has-treeview {{ active(['admin/tournaments*']) }}">
                 <a href="#" class="nav-link {{ active(['admin/tournaments*']) }}">
                     <i class="nav-icon fas fa-trophy text-warning"></i>

@@ -56,7 +56,7 @@ Route::middleware('role:Admin,Admin1,Editor')->prefix('admin')->group(function (
 
 });
 Route::middleware('role:Admin,Admin1')->prefix('admin')->group(function (){
-	// Dashboard
+
 
 	//Deposits
 	Route::get('/deposits', 'TransactionController@allDeposits')->name('deposit.index');
@@ -81,6 +81,8 @@ Route::middleware('role:Admin,Admin1')->prefix('admin')->group(function (){
 
 });
 Route::middleware('role:Admin,Editor,Admin1')->prefix('admin')->group(function () {
+	// Games
+	Route::get('game/histories',"GameHistoryController@index")->name("game.index");
 	// Tournament Routes
 	Route::resource('/tournaments', 'TournamentController')->except('index','create', 'show', 'edit');
 	// Match Routes

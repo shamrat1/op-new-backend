@@ -69,7 +69,8 @@ class UserController extends Controller
 			'username' => 'required|exists:users,username',
 			'email' => 'required'
 		]);
-		$sponserEmail = User::where('username',$request->sponser)->first()->email;
+		$sponser = User::where('username',$request->sponser)->first();
+		$sponserEmail = $sponser != null ? $sponser->email : "";
 		$before = User::where('id',$id)->select(['name','username','email','club_id','country','mobile','sponser_email','banned_until'])->with(['club:id,name'])->first()->toJson();
 		User::find($id)->update([
 			'name' => $request->input('name'),
@@ -79,7 +80,8 @@ class UserController extends Controller
 			'country' => $request->input('country'),
 			'mobile' => $request->input('mobile'),
 			'sponser_email' => $sponserEmail,
-			'banned_until' => $request->banned_until
+			'banned_until' => $request->banned_until,
+			'is_allowed_transaction' => $request->has('is_allowed_transaction') ? true : false,
 		]);
         // $after = User::where('id',$id)->select(['name','username','email','club_id','country','mobile','sponser_email','banned_until'])->with(['club:id,name'])->first()->toJson();
         // TrackActivity::create([
