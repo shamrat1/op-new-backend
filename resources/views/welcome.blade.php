@@ -23,7 +23,20 @@
                     
                     
                 </div>
+                @php
+                  $appDwnSetting = $settings->where('key','app-download-url')->first();
+                  $showAppDwnSetting = $settings->where('key','show-app-download-dialog')->first();
+                  $url = "https://google.com";
+                  $showAppDwnDialog = false;
+                  if($appDwnSetting != null){
+                    $url = $appDwnSetting->value;
+                  }
+                  if($showAppDwnSetting != null){
+                    $showAppDwnDialog = boolval($showAppDwnSetting->value);
+                  }
+                @endphp
 <!-- Modal -->
+@if($showAppDwnDialog)
 <div class="modal fade" id="appImageModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -34,7 +47,7 @@
         </button>
       </div>
       <!-- <div class="modal-body"> -->
-        <a href="https://google.com">
+        <a href="{{ $url }}">
         <img class="rounded img-fluid" style="object-fit:cover !important;" id="img01" src="https://picsum.photos/id/237/1080/700">
         </a>
       <!-- </div> -->
@@ -45,6 +58,7 @@
     </div>
   </div>
 </div>
+@endif
 
 @endsection
 

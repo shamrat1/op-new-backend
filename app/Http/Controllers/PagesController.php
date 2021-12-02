@@ -10,6 +10,7 @@ use App\SiteSetting;
 use App\BetSetting;
 use App\Http\Traits\BetValueSetter;
 use App\PaymentSetting;
+use App\Setting;
 
 class PagesController extends Controller
 {
@@ -23,9 +24,10 @@ class PagesController extends Controller
     	// $matches = Match::with('tournament','betsForMatch','betsForMatch.betOption','betsForMatch.betDetails')->where('status','live')->orderBy('match_time')->get();
         $siteSetting = SiteSetting::get()->first();
         $betSetting = BetSetting::get()->first();
+        $settings = Setting::get();
         // $banner = BannerImage::where('isEnabled',1)->get();
     	// return view('welcome',compact(['matches','siteSetting','betSetting','banner']));
-    	return view('welcome',compact(['siteSetting','betSetting']));
+    	return view('welcome',compact(['siteSetting','betSetting','settings']));
     }
 
     public function apiGetMatches(Request $request)

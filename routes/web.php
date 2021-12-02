@@ -13,6 +13,7 @@
 
 use App\Jobs\SendMail;
 use App\PlacedBet;
+use App\Setting;
 
 /**
  */
@@ -22,7 +23,9 @@ View::composer(['layouts.master', 'layouts.master-auth'], function ($view) {
 		$total = empty(auth()->user()->credit) ? 0 : auth()->user()->credit->amount;
 		$credit = $total > 0 ? $total : 0;
 		$view->with('credit', $credit);
+		
 	}
+
 });
 
 // Route::get('/',function(){
