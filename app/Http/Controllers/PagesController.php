@@ -25,9 +25,9 @@ class PagesController extends Controller
         $siteSetting = SiteSetting::get()->first();
         $betSetting = BetSetting::get()->first();
         $settings = Setting::get();
-        // $banner = BannerImage::where('isEnabled',1)->get();
+        $banner = BannerImage::where('isEnabled',1)->first();
     	// return view('welcome',compact(['matches','siteSetting','betSetting','banner']));
-    	return view('welcome',compact(['siteSetting','betSetting','settings']));
+    	return view('welcome',compact(['siteSetting','betSetting','settings', 'banner']));
     }
 
     public function apiGetMatches(Request $request)
