@@ -11,7 +11,7 @@ use App\SiteSetting;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Validator;
 
 class AccountController extends Controller{
 
@@ -45,7 +45,7 @@ class AccountController extends Controller{
 
     public function storeWithdraw(Request $request)
     {
-        $validator = Validator::make($request, [
+        $validator = Validator::make($request->all(), [
             "mobile" => "required|regex:/^([0-9\s\-\+\(\)]*)$/|min:11",
             "amount" => "required|numeric",
             "password" => "required|current_password",
