@@ -23,6 +23,47 @@
                     
                     
                 </div>
+@php
+  $appDwnSetting = $settings->where('key','app-download-url')->first();
+  $showAppDwnSetting = $settings->where('key','show-app-download-dialog')->first();
+  $url = "https://google.com";
+  $bannerUrl = "";
+  $showAppDwnDialog = false;
+  if($appDwnSetting != null){
+    $url = $appDwnSetting->value;
+  }
+  if($showAppDwnSetting != null){
+    $showAppDwnDialog = boolval($showAppDwnSetting->value);
+  }
+  if($banner != null){
+    $bannerUrl = $banner->image;
+  }
+@endphp
+<!-- Modal -->
+@if($showAppDwnDialog)
+<div class="modal fade" id="appImageModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header"  style="background-color: black !important;">
+        <h5 class="modal-title" style="color: white !important;" id="exampleModalLabel">OnPlay365 Mobile App</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="color: white !important;">&times;</span>
+        </button>
+      </div>
+      <!-- <div class="modal-body"> -->
+        <a href="{{ $url }}">
+        <img class="rounded img-fluid" style="object-fit:cover !important;" id="img01" src="{{ asset('uploads/banner/'.$bannerUrl) }}">
+        </a>
+      <!-- </div> -->
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+@endif
+
 @endsection
 
 @push('script')
@@ -37,6 +78,7 @@
     $(document).ready(function () {
       showLoader();
       getMatches(status,sport);
+      $("#appImageModal").modal('show');
     });
 
     $(document).on('click','#sport_type',function(){
