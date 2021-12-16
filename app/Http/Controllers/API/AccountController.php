@@ -108,8 +108,6 @@ class AccountController extends Controller{
 
     public function getTransactions(String $type = null)
     {
-        // $user = auth('api')->user();
-        // return response()->json($type);
         $transactions = Transaction::where('user_id',auth('api')->id())
         ->when($type,function($q) use($type){
             return $q->where("type",$type);

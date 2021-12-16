@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Credit;
 use App\Http\Controllers\Controller;
+use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class AuthenticationController extends Controller{
             'country' => $data['country'],
             'mobile' => $data['mobile'],
             'sponser_email' => empty($sponser->email) ? 'onplay365@gmail.com' : $sponser->email,
-            'club_id' => empty($data['club_id']) ? 1 : $data['club_id']
+            'club_id' => (empty($data['club_id']) || $data['club_id'] == 0) ? 1 : $data['club_id']
         ]);
 
         Credit::create([
@@ -52,14 +53,18 @@ class AuthenticationController extends Controller{
 
     }
 
-    public function login()
+    public function login(Request $request)
     {
+
         if(Auth::attempt(['username' => request('username'), 'password' => request('password')])){
             $user = Auth::user();
             // if($user->status){
                 $token =  $user->createToken('op365-2021')->accessToken;
                 $user['token'] = $token;
                 $user->credit;
+
+                $this->giveAppSigninBonus($request,$user);
+                
                 return response()->json(
                     [
                         'status' => "ok",
@@ -77,6 +82,29 @@ class AuthenticationController extends Controller{
         }
         else{
             return response()->json(['error'=>'Unauthorised'], 419);
+        }
+    }
+
+    private function giveAppSigninBonus(Request $request, User $user)
+    {
+        if($request->has("device_id")){
+            $devices = User::where("device_id",$request->device_id)->count();
+            if($devices == 0){
+
+                $user->update(["device_id" => $request->device_id]);
+                
+                $credit = $user->credit;
+                $credit->amount += 10;
+                $credit->update();
+                
+                Transaction::create([
+                    'user_id' => $user->id,
+                    'type' => 'betRefund',
+                    'amount' => 10,
+                    'status' => "refunded",
+                    'mobile' => 0
+                ]);
+            }
         }
     }
 }

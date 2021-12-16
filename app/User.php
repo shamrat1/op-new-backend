@@ -27,7 +27,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'sponser_email',
         'club_id',
         'banned_until',
-        'is_allowed_transaction'
+        'is_allowed_transaction',
+        "received_signup_bouns",
+        "device_id",
     ];
 
     /**
