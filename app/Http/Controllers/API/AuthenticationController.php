@@ -90,7 +90,7 @@ class AuthenticationController extends Controller{
         if($request->has("device_id")){
             $devices = User::where("device_id",$request->device_id)->count();
             if($devices == 0){
-
+                $user = User::find($user->id);
                 $user->update(["device_id" => $request->device_id]);
                 
                 $credit = $user->credit;
