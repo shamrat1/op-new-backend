@@ -95,7 +95,7 @@ class GameHistoryController extends Controller
         }
         return response()->json([
             "gameHistory" => $gameHistory,
-            "credits" => $credit->amount]);
+            "credits" => $user->credit->amount]);
 
     }
 }
