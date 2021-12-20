@@ -11,6 +11,7 @@ use App\SiteSetting;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 
 class AccountController extends Controller{
@@ -83,7 +84,9 @@ class AccountController extends Controller{
 			'name' => 'required',
 			'username' => 'required|exists:users,username',
 			'email' => 'required',
-            "password" => "nullable|min:8|confirmed"
+            'new_password' => 'nullable|min:8',
+            'new_password_confirmation' => 'required_with:new_password|same:new_password',
+            "password" => "nullable|min:8|current_password"
 		]);
         if($validator->fails()){
             return response()->json($validator->messages(),401);
@@ -95,9 +98,13 @@ class AccountController extends Controller{
 			'club_id' => $request->input('club_id'),
 			'country' => $request->input('country'),
 			'mobile' => $request->input('mobile'),
-			'sponser_email' => $sponserEmail,
-			'banned_until' => $request->banned_until
 		]);
+
+        if($request->has('new_password')){
+            User::find(auth('api')->id())->update([
+                'password' => Hash::make($request->new_password),
+            ]);
+        }
         return response()->json($this->getBasicResponse("ok","User Information Updated"));
     }
 
