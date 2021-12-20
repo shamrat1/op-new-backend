@@ -80,7 +80,7 @@ class AccountController extends Controller{
 
     public function updateUserInfo(Request $request)
     {
-        $validator = Validator::make($request,[
+        $validator = Validator::make($request->all(),[
 			'name' => 'required',
 			'username' => 'required|exists:users,username',
 			'email' => 'required',
@@ -100,7 +100,7 @@ class AccountController extends Controller{
 			'mobile' => $request->input('mobile'),
 		]);
 
-        if($request->has('new_password')){
+        if($request->has('new_password') && $request->password != null){
             User::find(auth('api')->id())->update([
                 'password' => Hash::make($request->new_password),
             ]);
