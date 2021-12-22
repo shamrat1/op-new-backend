@@ -86,7 +86,7 @@ class AccountController extends Controller{
 			'email' => 'required',
             'new_password' => 'nullable|min:8',
             'new_password_confirmation' => 'required_with:new_password|same:new_password',
-            "password" => "nullable|min:8|current_password"
+            "password" => "required|min:8|current_password"
 		]);
         if($validator->fails()){
             return response()->json($validator->messages(),401);

