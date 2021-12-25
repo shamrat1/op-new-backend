@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AutoOption;
 use Illuminate\Http\Request;
 use App\Match;
 use App\Tournament;
@@ -91,7 +92,13 @@ class MatchController extends Controller
     public function create()
     {
         $tournaments = Tournament::all();
-        return view("admin.match.create")->with('tournaments',$tournaments);
+        $autoOptions = AutoOption::all();
+        return view("admin.match.create",
+            compact(
+                "tournaments",
+                "autoOptions"
+            )
+        );
     }
 
     public function getImports()
@@ -180,10 +187,63 @@ class MatchController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        Match::create($request->all());
+        $match = Match::create($request->all());
+        // $match = Match::first();
+        $match->load("tournament");
+        $str = "@team1 @team2 @tournament";
+        // dd($this->getName($str,"ABC","BCD","Tournament"));
+        if($request->has("auto_option") && $request->autoOption != "0"){
+            $main = AutoOption::find($request->auto_option);
+            $main->load("autoMainOption","autoMainOption.autoOptionDetail");
+            // check if option exists
+            foreach($main->autoMainOption as $option){
+                $betOption = BetOption::where("name",$option->name)->first();
+                if($betOption == null){
+                    // $optionName = 
+                    $betOption = BetOption::create([
+                        "name" => $this->getName(
+                            $option->name,
+                            $match->team1,
+                            $match->team2,
+                            $match->tournament->name,
+                            $match->name
+                        ),
+                        "isMultipleSupported" => false
+                        ]);
+                }
+                $betsForMatch = BetsForMatch::create([
+                    "bet_option_id" => $betOption->id,
+                    "match_id" => $match->id,
+                ]);
+                foreach($option->autoOptionDetail as $detail){
+                    BetOptionDetail::create([
+                        "name" => $this->getName(
+                            $detail->name,
+                            $match->team1,
+                            $match->team2,
+                            $match->tournament->name,
+                            $match->name
+                        ),
+                        "bets_for_match_id" => $betsForMatch->id,
+                    ]);
+                }
+            }
+        }
         return redirect()->route('match.index');
+    }
 
+    public function getName($str, $team1, $team2, $tournament, $match){
+        if(str_contains($str, '@team1')){
+            return str_replace("@team1",$team1,$str);
+        }else if(str_contains($str, '@team2')){
+            return str_replace("@team2",$team2,$str);
+        }else if(str_contains($str, '@tournament')){
+            return str_replace("@tournament",$tournament,$str);
+        }else if(str_contains($str, '@match')){
+            return str_replace("@match",$match,$str);
+        }else{
+            return $str;
+        }
     }
 
     /**

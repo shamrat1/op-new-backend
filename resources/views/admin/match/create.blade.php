@@ -48,7 +48,7 @@
 						</div>
 						<div class="row">
 							<div class="col form-group">
-								<label>Tournament</label>
+								<label>Tournament</label><br>
 								<select name="tournament_id" class="form-control select2" id="exampleFormControlSelect1">
 									@foreach($tournaments as $item)
 									<option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -99,6 +99,19 @@
 								<div class="form-group">
 									<label for="">Tournament Match No</label>
 									<input type="text" placeholder="Ex: 2nd Match" name="tournament_match_no" class="form-control" id="">
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label for="">Auto Option Selection</label><br>
+									<select class="select2" name="auto_option" id="auto_option">
+										<option value="0">Select Auto Option</option>
+										@forelse ($autoOptions as $option)
+											<option value="{{ $option->id }}">{{ $option->name }}</option>
+										@empty
+											<option>No Options Added</option>
+										@endforelse
+									</select>
 								</div>
 							</div>
 						</div>
