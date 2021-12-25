@@ -74,6 +74,7 @@
                                 <p>User Reports</p>
                             </a>
                             </li>
+
                             <li class="nav-item {{ active('admin/report/bet') }}">
                                 <a href="{{ route('report.bet') }}" class="nav-link {{ active('admin/report/bet') }}">
                                     <i class="nav-icon fas fa-hashtag text-danger"></i>
@@ -87,6 +88,12 @@
                                 </a>
                             </li>
                         </ul>
+                </li>
+                <li class="nav-item {{ active('admin/auto-option*') }}">
+                    <a href="{{ route('auto-option.index') }}" class="nav-link {{ active('admin/auto-option*') }}">
+                        <i class="nav-icon fa fa-user text-white"></i>
+                        <p>Auto Options</p>
+                    </a>
                 </li>
             @endrole
             <li class="nav-item {{ active('admin/match') }}">

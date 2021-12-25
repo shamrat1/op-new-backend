@@ -45,6 +45,12 @@ Route::middleware('role:Admin,Admin1,Editor')->prefix('admin')->group(function (
 		Route::post("/main","AutoOptionController@storeOption")->name("main");
 		Route::post("/secondary","AutoOptionController@storeOptionSecondary")->name("secondary");
 		Route::post("/third","AutoOptionController@storeOptionThird")->name("third");
+		
+		Route::get("/link/option/{id}","AutoOptionController@getLinkOptionView")->name("link.show");
+		Route::post("/link/option/{id}","AutoOptionController@getLinkOptionStore")->name("link.store");
+
+		Route::get("/link/secondary-option/{id}","AutoOptionController@getLinkSecondaryOptionView")->name("link.secondary.show");
+		Route::post("/link/secondary-option/{id}","AutoOptionController@getLinkSecondaryOptionStore")->name("link.secondary.store");
 
 		Route::get("/","AutoOptionController@index")->name("index");
 		Route::get("/create","AutoOptionController@create")->name("create");

@@ -112,6 +112,7 @@
 									<td>{{ $item->id }}</td>
 									<td>{{ $item->name }}</td>
 									<td>
+										<a href="{{ route("auto-option.link.show", $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 										{{-- <a href="{{ route('banner.status',$item->id) }}" class="btn btn-sm {{ $item->isEnabled ? 'btn-warning' : 'btn-success' }}">{{ $item->isEnabled ? 'Disable' : 'Publish' }}</a>
 										<a href="{{ route('banner.delete',$item->id) }}" class="btn btn-sm btn-danger">Delete</a> --}}
 									</td>
@@ -151,8 +152,7 @@
 									<td>{{ $item->id }}</td>
 									<td>{{ $item->name }}</td>
 									<td>
-										{{-- <a href="{{ route('banner.status',$item->id) }}" class="btn btn-sm {{ $item->isEnabled ? 'btn-warning' : 'btn-success' }}">{{ $item->isEnabled ? 'Disable' : 'Publish' }}</a>
-										<a href="{{ route('banner.delete',$item->id) }}" class="btn btn-sm btn-danger">Delete</a> --}}
+										<a href="{{ route("auto-option.link.secondary.show", $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 									</td>
 									</tr>
 								@endforeach

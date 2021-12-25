@@ -52,4 +52,36 @@ class AutoOptionController extends Controller
 
         return redirect()->back();
     }
+
+    public function getLinkOptionView($id)
+    {
+        $option = AutoOption::find($id);
+        $option->load("autoMainOption","autoMainOption.autoOptionDetail");
+        $mainOptions = AutoMainOption::get();
+        return view('admin.auto-option.main-edit',compact(['option', 'mainOptions']));
+    }
+
+    public function getLinkOptionStore(Request $request,$id)
+    {
+        $option = AutoOption::find($id);
+        $option->autoMainOption()->sync($request->main_options);
+
+        return redirect()->back();
+    }
+
+    public function getLinkSecondaryOptionView($id)
+    {
+        $option = AutoMainOption::find($id);
+        $option->load("autoOption","autoOptionDetail");
+        $optionDetails = AutoOptionDetail::get();
+        return view('admin.auto-option.secondary-edit',compact(['option', 'optionDetails']));
+    }
+
+    public function getLinkSecondaryOptionStore(Request $request,$id)
+    {
+        $option = AutoMainOption::find($id);
+        $option->autoOptionDetail()->sync($request->main_options);
+
+        return redirect()->back();
+    }
 }
