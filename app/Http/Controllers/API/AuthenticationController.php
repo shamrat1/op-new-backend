@@ -99,9 +99,9 @@ class AuthenticationController extends Controller{
                 
                 Transaction::create([
                     'user_id' => $user->id,
-                    'type' => 'betRefund',
+                    'type' => 'App Login Bonus',
                     'amount' => 10,
-                    'status' => "refunded",
+                    'status' => "approved",
                     'mobile' => 0
                 ]);
             }

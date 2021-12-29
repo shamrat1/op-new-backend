@@ -5,7 +5,7 @@
      @include('layouts._partials.option-sliders')
             <!-- notice marquee -->
                 <div class="marquee">
-                    <marquee class="default_text" style="font-weight: bold;" behavior="" direction="">{{$siteSetting->notice}}</marquee>
+                    <marquee scrollamount="5" class="default_text" style="font-weight: bold;" behavior="" direction="">{{$siteSetting->notice}}</marquee>
                 </div>
             <!-- match filter section -->
                 <div class="row justify-content-center">
