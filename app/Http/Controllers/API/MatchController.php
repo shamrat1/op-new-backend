@@ -24,8 +24,13 @@ class MatchController extends Controller
         ->where('status', ($request->status ?? 'live'))
         ->orderBy('match_time')
         ->get();
-
-        return response()->json($matches);
+        $grouped = [];
+        $grouped["Cricket"] = $matches->where('sport_type','cricket');
+        $grouped["Football"] = $matches->where('sport_type','football');
+        $grouped["Basketball"] = $matches->where('sport_type','basketball');
+        $grouped["Volleyball"] = $matches->where('sport_type','volleyball');
+        $grouped["Tennis"] = $matches->where('sport_type','Tennis');
+        return response()->json($grouped);
     }
     
 }

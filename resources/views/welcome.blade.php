@@ -5,7 +5,7 @@
      @include('layouts._partials.option-sliders')
             <!-- notice marquee -->
                 <div class="marquee">
-                    <marquee scrollamount="5" class="default_text" style="font-weight: bold;" behavior="" direction="">{{$siteSetting->notice}}</marquee>
+                    <marquee scrollamount="4" class="default_text" style="font-weight: bold;" behavior="" direction="">{{$siteSetting->notice}}</marquee>
                 </div>
             <!-- match filter section -->
                 <div class="row justify-content-center">
@@ -17,7 +17,9 @@
                     </div>
                 </div>
             <!-- matches section -->
+
                 <div class="matches" id="matches">
+
                 <!-- <div class="matches"> -->
                     
                     
@@ -112,79 +114,94 @@
     if(status == 'success'){
       removeLoader();
       var matchInfoRow = "";
-      if(data.length > 0){
-        $.each(data,function(index,value){
-        // console.log(value['bets_for_match'])
-        matchInfoRow += `
-        <div class="card rounded my-3 accent_bg">
-          <!-- match information -->
-          <div class="row mx-1 pt-1 rounded shadow">
-              <div class="col">
-                  <p class="m-0">`+value['name']+`</p>
-                  <p class="m-0" style="font-size:9px;"><span>`+value['tournament'].name+`</span> `+formatDate(value['match_time'])+`</p>
-              </div>
+      $.each(data,function(index,matches){
+        console.log("-------------------------------------------------");
+        console.log(sport +" "+index);
+        console.log(sport == "all" || index.toLowerCase() == sport);
+        console.log("-------------------------------------------------");
 
-              <div class="col-3">
-                   <img class="" src="`+getMatchTypeIcon(value['sport_type'])+`" height="30px" width="30px" alt="">
-              </div>
-          </div>
+        if(sport == "all" || index.toLowerCase() == sport){
+          matchInfoRow += `
+        <div class="my-2 py-2 action_accent rounded text-center">
+              <h4>`+index+`</h4>
+            </div>
         `;
-        $.each(value['bets_for_match'],function(indexJ,betForMatch){
-          if(betForMatch['isLive'] == "1" && betForMatch['isResultPublished'] == '0'){
-              var betsForMatchRow = `
-              <div class="my-2">
-                <div class="col-12 mb-2 p-1 rounded action_accent">
-                    <p class="m-0 ml-2" style="font-size:15px;">`+betForMatch['bet_option'].name+`</p>
-                </div>
-                <div class="col-12">
-                  <div class="row">
-            `;
-            // console.log(betForMatch['score'])
-            $.each(betForMatch['bet_details'],function(i,data){
-              var betRow = `
-                <div class="col-6 p-0 card inactive_accent">
-                    <button 
-                    id='modalBtn'
-                    data-option="`+betForMatch['bet_option'].name+`" 
-                    data-name="`+value['name']+`" 
-                    data-match_id="`+value['id']+`" 
-                    data-bets-details-id="`+data['id']+`" 
-                    data-bet-name="`+data['name']+`"
-                    data-value="`+(betForMatch['score'] == true ? data['value'] : '')+`" 
-                    type="button"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    class="w-100 inactive_accent text-white btn-block btn"
-                    style=" font-size: 11px; white-space:normal !important;"
-                    >`+data['name']+` - `+(betForMatch['score'] == true ? data['value'] : '') +`</button>
-                </div>
-              `;
-              betsForMatchRow += betRow;
-            });
-            betsForMatchRow += `
+        if(Object.keys(matches).length > 0){
+
+          $.each(matches,function(index,value){
+            matchInfoRow += `
+            <div class="card rounded my-3 accent_bg">
+              <!-- match information -->
+              <div class="row mx-1 pt-1 rounded shadow">
+                  <div class="col">
+                      <p class="m-0">`+value['name']+`</p>
+                      <p class="m-0" style="font-size:9px;"><span>`+value['tournament'].name+`</span> `+formatDate(value['match_time'])+`</p>
+                  </div>
+
+                  <div class="col-3">
+                      <img class="" src="`+getMatchTypeIcon(value['sport_type'])+`" height="30px" width="30px" alt="">
                   </div>
               </div>
-            </div>`;
-              matchInfoRow += betsForMatchRow;
-          }else{
-            // console.log(betForM  atch)
-          }
-        });
-        matchInfoRow += `
-        </div>`;
-        $('#matches').html(matchInfoRow);
-      });
-      }else{
-        removeLoader();
-        $('#matches').empty();
-        $('#matches').html(`
-        <div class="row mx-1 my-3 rounded elevation accent_bg">
-                      <div class="col  my-5 text-center">
-                        <h5 class="text-white">No Match Found for `+sport.toUpperCase()+`</h5>
-                      </div>
+            `;
+            $.each(value['bets_for_match'],function(indexJ,betForMatch){
+              if(betForMatch['isLive'] == "1" && betForMatch['isResultPublished'] == '0'){
+                  var betsForMatchRow = `
+                  <div class="my-2">
+                    <div class="col-12 mb-2 p-1 rounded action_accent">
+                        <p class="m-0 ml-2" style="font-size:15px;">`+betForMatch['bet_option'].name+`</p>
                     </div>
-        `);
-      }
+                    <div class="col-12">
+                      <div class="row">
+                `;
+                // console.log(betForMatch['score'])
+                $.each(betForMatch['bet_details'],function(i,data){
+                  var betRow = `
+                    <div class="col-6 p-0 card inactive_accent">
+                        <button 
+                        id='modalBtn'
+                        data-option="`+betForMatch['bet_option'].name+`" 
+                        data-name="`+value['name']+`" 
+                        data-match_id="`+value['id']+`" 
+                        data-bets-details-id="`+data['id']+`" 
+                        data-bet-name="`+data['name']+`"
+                        data-value="`+(betForMatch['score'] == true ? data['value'] : '')+`" 
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        class="w-100 inactive_accent text-white btn-block btn"
+                        style=" font-size: 11px; white-space:normal !important;"
+                        >`+data['name']+` - `+(betForMatch['score'] == true ? data['value'] : '') +`</button>
+                    </div>
+                  `;
+                  betsForMatchRow += betRow;
+                });
+                betsForMatchRow += `
+                      </div>
+                  </div>
+                </div>`;
+                  matchInfoRow += betsForMatchRow;
+              }else{
+                // console.log(betForM  atch)
+              }
+            });
+            matchInfoRow += `
+            </div>`;
+          });
+        
+        
+          }else{
+          removeLoader();
+          if(index.toLowerCase() == sport)
+          matchInfoRow += `
+          <div class="row mx-1 my-3 rounded elevation accent_bg">
+                        <div class="col  my-5 text-center">
+                          <h5 class="text-white">No Match Found for `+index.toUpperCase()+`</h5>
+                        </div>
+                      </div>
+          `;
+          }}
+        });
+        $('#matches').html(matchInfoRow);
       
     }
     });

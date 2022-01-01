@@ -80,6 +80,7 @@
 									<option value="live">Live</option>
 									<option value="upcoming">Upcoming</option>
 									<option value="draft">draft</option>
+									<option value="unpublished">Unpublished</option>
 								</select>
 							</div>
 							<div class="col form-group">

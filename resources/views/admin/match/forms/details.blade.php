@@ -121,6 +121,7 @@
                         <option value="draft" {{ $match->status == "draft" ? "selected" : "" }}>draft</option>
                         <option value="live" {{ $match->status == "live" ? "selected" : "" }}>live</option>
                         <option value="upcoming" {{ $match->status == "upcoming" ? "selected" : "" }}>upcoming</option>
+                        <option value="unpublished" {{ $match->status == "unpublished" ? "selected" : "" }}>Unpublished</option>
                     </select>
                 </div>
             </div>

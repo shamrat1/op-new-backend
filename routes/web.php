@@ -85,8 +85,7 @@ Route::middleware('role:Admin,Admin1,Editor')->prefix('admin')->group(function (
 
 });
 Route::middleware('role:Admin,Admin1')->prefix('admin')->group(function (){
-
-
+	
 	//Deposits
 	Route::get('/deposits', 'TransactionController@allDeposits')->name('deposit.index');
 	Route::put('/deposits/{id}', 'TransactionController@updateDeposits')->name('deposit.update');
