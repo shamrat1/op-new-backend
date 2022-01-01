@@ -29,10 +29,10 @@ class AuthenticationController extends Controller{
             return response()->json($validator->messages());
         }
         $data = $request->all();
-        $sponser = User::where('username',$data["sponser"])->first();
+        $sponser = User::where('username',$data["sponser"] ?? 'Onplay365')->first();
         // dd(empty($data['club_id']));
         $user = User::create([
-            'name' => $data['name'],
+            'name' => $data['name'] ?? '',
             'username' => $data['username'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
