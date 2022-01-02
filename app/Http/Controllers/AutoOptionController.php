@@ -11,9 +11,10 @@ class AutoOptionController extends Controller
 {
     public function index()
     {
-        $option = AutoOption::paginate(15);
-        $mainOptions = AutoMainOption::paginate(15);
-        $optionDetails = AutoOptionDetail::paginate(15);
+        $option = AutoOption::paginate(15, ['*'], "optionPage");
+        $mainOptions = AutoMainOption::paginate(15, ['*'], "mainOptionsPage");
+        $optionDetails = AutoOptionDetail::paginate(15, ['*'], "detailsPage");
+
 
         return view("admin.auto-option.index",compact([
             'option', 'mainOptions', 'optionDetails'

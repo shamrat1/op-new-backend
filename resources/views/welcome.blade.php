@@ -74,8 +74,8 @@
   var sport = "all";
 
     setInterval(() => {
-      // getMatches(status,sport);
-    }, 10000);
+      getMatches(status,sport);
+    }, 15000);
 
     $(document).ready(function () {
       showLoader();
@@ -115,11 +115,6 @@
       removeLoader();
       var matchInfoRow = "";
       $.each(data,function(index,matches){
-        console.log("-------------------------------------------------");
-        console.log(sport +" "+index);
-        console.log(sport == "all" || index.toLowerCase() == sport);
-        console.log("-------------------------------------------------");
-
         if(sport == "all" || index.toLowerCase() == sport){
           matchInfoRow += `
         <div class="my-2 py-2 action_accent rounded text-center">

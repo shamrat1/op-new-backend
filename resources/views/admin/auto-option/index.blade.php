@@ -122,6 +122,7 @@
 							
 							</tbody>
 						</table>
+						{{ $option->links() }}
 					</div>
 
 				</div>
@@ -160,6 +161,7 @@
 							
 							</tbody>
 						</table>
+						{{ $mainOptions->links() }}
 					</div>
 
 				</div>
@@ -201,6 +203,7 @@
 							
 							</tbody>
 						</table>
+						{{ $optionDetails->links() }}
 					</div>
 
 				</div>

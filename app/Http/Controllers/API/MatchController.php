@@ -17,6 +17,16 @@ class MatchController extends Controller
 {
     public function getMatches(Request $request)
     {
+        if($request->has('origin')){
+            $matches = Match::with('tournament','betsForMatch', 'betsForMatch.betOption', 'betsForMatch.betDetails')
+            ->when($request->sport != 'all',function($q) use($request){
+                $q->where('sport_type',$request->sport);
+            })
+            ->where('status', ($request->status ?? 'live'))
+            ->orderBy('match_time')
+            ->get();
+            return response()->json($matches);
+        }
         $matches = Match::with('tournament','betsForMatch', 'betsForMatch.betOption', 'betsForMatch.betDetails')
         ->when($request->sport != 'all',function($q) use($request){
             $q->where('sport_type',$request->sport);

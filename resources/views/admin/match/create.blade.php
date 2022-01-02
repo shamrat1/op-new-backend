@@ -79,6 +79,7 @@
 									<option value="">Select status</option>
 									<option value="live">Live</option>
 									<option value="upcoming">Upcoming</option>
+									<option value="pending">Pending</option>
 									<option value="draft">draft</option>
 									<option value="unpublished">Unpublished</option>
 								</select>
