@@ -15,21 +15,48 @@ class CampaignController extends Controller
 
     public function create()
     {
-        # code...
+        return view('admin.campaign.create');
     }
 
     public function store(Request $request)
     {
-        # code...
+        $request->validate([
+            "name" => "required|string|unique:campaigns,name",
+            "effective_on" => "required|string",
+            "min_amount" => "required|string",
+            "max_amount" => "required|string",
+            "status" => "required|string",
+            "reward_amount" => "required|string",
+            "amount_type" => "required|string",
+            "start_date" => "required|date",
+            "end_date" => "required|date",
+        ]);
+        Campaign::create($request->all());
+
+        return redirect()->route("campaign.index");
     }
 
     public function edit($id)
     {
-        # code...
+        $campaign = Campaign::find($id);
+        return view("admin.campaign.edit",compact('campaign'));
     }
 
     public function update(Request $request, $id)
     {
-        # code...
+        $request->validate([
+            "name" => "required|string|unique:campaigns,name,$id",
+            "effective_on" => "required|string",
+            "min_amount" => "required|string",
+            "max_amount" => "required|string",
+            "status" => "required|string",
+            "reward_amount" => "required|string",
+            "amount_type" => "required|string",
+            "start_date" => "required|date",
+            "end_date" => "required|date",
+        ]);
+        $campaign = Campaign::find($id);
+        $campaign->update($request->all());
+        return redirect()->route("campaign.index");
     }
 }

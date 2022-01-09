@@ -30,7 +30,7 @@
                     Campaigns
                 </div><!-- /.card-title -->
                 <div class="card-tools">
-                    {{-- <a href="" class="btn btn-sm"><i class="fas fa-plus"></i></a>     --}}
+                    <a href="{{ route('campaign.create') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> New Campaign</a>    
                 </div><!-- /.card-tools -->    
             </div><!-- /.card-header -->
             <div class="card-body">
@@ -53,7 +53,7 @@
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->effective_on }}</td>
-                                <td>{{ $item->min_amount }} => REWARD AMOUNT <= {{ $item->max_amount }}</td>
+                                <td>{{ $item->min_amount }} => USER AMOUNT <= {{ $item->max_amount }}</td>
                                 <td>
                                     <span class="text-info">
                                         {{ $item->reward_amount }} {{ $item->amount_type == 'percent' ? "%" : "Tk" }}
@@ -65,7 +65,7 @@
                                     <small class="text-muted">{{ \Carbon\Carbon::parse($item->end_date)->diffForHumans() }}</small><br>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-sm"><i class="fas fa-edit text-warning"></i></a>
+                                    <a href="{{ route('campaign.edit',$item->id ) }}" class="btn btn-sm"><i class="fas fa-edit text-warning"></i></a>
                                     <a href="#" class="btn btn-sm"><i class="fas fa-trash text-danger"></i></a>
                                 </td>
                             </tr>

@@ -10,7 +10,10 @@ class Campaign extends Model
         "name",
         "effective_on",
         "status",
-        "amount",
+        "min_amount",
+        "max_amount",
+        "status",
+        "reward_amount",
         "amount_type",
         "start_date",
         "end_date"
