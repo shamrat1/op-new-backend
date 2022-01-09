@@ -91,6 +91,9 @@ Route::middleware('role:Admin,Admin1')->prefix('admin')->group(function (){
 	Route::put('/deposits/{id}', 'TransactionController@updateDeposits')->name('deposit.update');
 	Route::get('/deposits/cancel/','DepositController@bulkCancel')->name('deposit.cancel.bulk');
 
+	// Campaigns
+	Route::resource("campaign",'CampaignController');
+
 	//Gifts
 	Route::get('/gifts','TransactionController@gifts')->name('gift.index');
 	// Withdraw Routes

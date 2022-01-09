@@ -25,9 +25,11 @@ class AuthenticationController extends Controller{
             'mobile' => ['required','numeric','digits_between:11,13'],
             'club_id' => ['nullable','numeric']
         ]);
+
         if($validator->fails()){
-            return response()->json($validator->messages());
+            return response()->json($validator->messages(),401);
         }
+
         $data = $request->all();
         $sponser = User::where('username',$data["sponser"] ?? 'Onplay365')->first();
         // dd(empty($data['club_id']));

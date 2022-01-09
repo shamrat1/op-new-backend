@@ -95,6 +95,12 @@
                         <p>Auto Options</p>
                     </a>
                 </li>
+                <li class="nav-item {{ active('admin/campaign*') }}">
+                    <a href="{{ route('campaign.index') }}" class="nav-link {{ active('admin/campaign*') }}">
+                        <i class="nav-icon fa fa-list text-white"></i>
+                        <p>Campaigns</p>
+                    </a>
+                </li>
             @endrole
             <li class="nav-item {{ active('admin/match') }}">
                         <a href="{{ route('game.index') }}" class="nav-link {{ active('admin/match') }}">
