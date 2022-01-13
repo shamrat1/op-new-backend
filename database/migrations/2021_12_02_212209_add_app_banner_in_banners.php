@@ -13,9 +13,9 @@ class AddAppBannerInBanners extends Migration
      */
     public function up()
     {
-        Schema::table('banner_images', function (Blueprint $table) {
-            $table->boolean("is_app_download_banner")->default(0);
-        });
+        // Schema::table('banner_images', function (Blueprint $table) {
+        //     $table->boolean("is_app_download_banner")->default(0);
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ class AddAppBannerInBanners extends Migration
      */
     public function down()
     {
-        Schema::table('banner_images', function (Blueprint $table) {
-            $table->dropColumn("is_app_download_banner");
-        });
+        // Schema::table('banner_images', function (Blueprint $table) {
+        //     $table->dropColumn("is_app_download_banner");
+        // });
     }
 }

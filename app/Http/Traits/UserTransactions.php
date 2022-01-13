@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\BetSetting;
+use App\Campaign;
 use App\Credit;
 use App\User;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use App\Rules\ValidAmount;
 use App\SiteSetting;
 use App\Http\Traits\UserCredit;
 use App\PaymentSetting;
+use App\Setting;
 
 /** 
  * User Transaction Trait
@@ -23,12 +25,19 @@ trait UserTransactions
      public function getTransactionForm()
      {
           $setting = SiteSetting::get()->first();
-          if($setting->isDepositable){
+          $campaigns = Campaign::where('status','live')->get();
+          $settings = Setting::get();
+          // if($setting->isDepositable){
                $backendMobile = $setting->backend_number;
                $paymentSetting = PaymentSetting::first();
-               return view('layouts.wallet.deposit', compact('backendMobile', 'paymentSetting'));
-          }
-          return redirect()->back()->with('message','Deposit requests are not available now. Try Again after some time.');
+               return view('layouts.wallet.deposit', compact(
+                    'backendMobile',
+                    'paymentSetting',
+                    'campaigns',
+                    'settings'
+               ));
+          // }
+          // return redirect()->back()->with('message','Deposit requests are not available now. Try Again after some time.');
 
           
      }

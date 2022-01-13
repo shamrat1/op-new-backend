@@ -2,6 +2,16 @@
 @section('title','New Deposit')
 
 @section('content')
+
+@php
+  $methodsetting = $settings->where('key','payment-method')->first()->value ?? '';
+  $methods = [];
+  $methods = explode(",",$methodsetting);
+  $backendNumber = [];
+  foreach ($methods as $value) {
+    $backendNumber[$value] = $settings->where('key',$value)->first()->value ?? '';
+  }
+@endphp
 <section class="deposit">      
   <div class="container">
     <div class="row card rounded elevation accent_bg my-3">
@@ -15,9 +25,15 @@
           @csrf
           <div class="form-group">
             <p class="for_front">Payment Method</p>
-            <select id="agent" name="payment_method" class="form-control">
-              <option value="bkash">Bkash</option>    
-              <option value="nagad">Nagad</option> 
+            <select id="payment_method" name="payment_method"
+            @foreach ($backendNumber as $key => $value)
+              data-{{$key}}={{$value}}
+            @endforeach
+            class="form-control">
+              <option value="">Select Method</option>
+              @foreach ($methods as $method)
+              <option value="{{ $method }}">{{ Str::ucfirst($method) }}</option>
+              @endforeach
               <!-- <option value="paypal">Paypal</option>    -->
             </select>
             @error('payment_method') <small class="text-danger">{{$message}}</small>@enderror
@@ -33,7 +49,7 @@
             <input type="text" class="form-control" name="mobile" id="number" required placeholder=" Number">
             @error('mobile') <small class="text-danger">{{$message}}</small>@enderror
 
-            <p class="for_front">Number To {{ $backendMobile }}</p>
+            <p class="for_front">Number To <span id="backendMobile">{{ $backendMobile }}</span></p>
             <input type="hidden" name="backend_mobile" value="{{ $backendMobile }}">
           </div>
           {{-- <div class="form-group">
@@ -47,7 +63,17 @@
 
           </div>
           
-
+          <div class="form-group">
+            <p class="for_front">Offers</p>
+            <select id="campaign_id" name="campaign_id" class="form-control">
+              <option value="">Select Offer</option>
+              @foreach ($campaigns as $offer)
+              <option value="{{ $offer->id }}">{{ Str::ucfirst($offer->name) }}</option>
+              @endforeach
+              <!-- <option value="paypal">Paypal</option>    -->
+            </select>
+            @error('payment_method') <small class="text-danger">{{$message}}</small>@enderror
+          </div>
           <button type="submit" class="btn btn-block action_accent text-white">Request Coin</button>
         </form>
       </div>
@@ -56,3 +82,11 @@
 </section>
 
 @endsection
+
+@push('plugin-scripts')
+  <script>
+    $(document).on("change","#payment_method",function(){
+      $("#backendMobile").html($(this).data($(this).val()));
+    });
+  </script>
+@endpush

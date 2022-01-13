@@ -119,6 +119,7 @@ class TransactionController extends Controller
                 $credit->amount = $credit->amount + $transaction->amount;
                 $credit->update();
             }
+            // check if there's any campaigns
         }
         $transaction->update();
         alertify("Deposit is accepted.");
