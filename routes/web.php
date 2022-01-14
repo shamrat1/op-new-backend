@@ -22,6 +22,10 @@ Route::get("/auto/login",function (){
 	Auth::loginUsingId(1,true);
 });
 
+Route::get('/reward',function(){
+	dd(150 * (10 /100));
+});
+
 View::composer(['layouts.master', 'layouts.master-auth'], function ($view) {
 	if (auth()->check()) {
 		$total = empty(auth()->user()->credit) ? 0 : auth()->user()->credit->amount;

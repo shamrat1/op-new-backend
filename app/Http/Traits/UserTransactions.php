@@ -51,18 +51,20 @@ trait UserTransactions
                "amount" => "required|numeric",
                "backend_mobile" => "required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10"
           ]);
-
-          Transaction::create([
+          $data = [
                'user_id' => auth()->user()->id,
                'mobile' => $request->input('mobile'),
                'backend_mobile' => $request->input('backend_mobile'),
-               // 'txn_id' => $request->input('txn_id'),
                'type' => 'deposit',
                'payment_method' => $request->input('payment_method'),
                'amount' => $request->input('amount'),
                'status' => 'pending'
-          ]);
-
+          ];
+          if($request->has('campaign_id')){
+               $data["txn_id"] = $request->input('campaign_id');
+               $data["payment_type"] = "campaign";
+          }
+          Transaction::create($data);
           alertify()->success('Deposit request submitted successfully. Awaiting for admin approval.');
           return redirect()->route('transactions.all');
      }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Campaign;
 use App\Credit;
 use App\User;
 use App\Http\Traits\UserTransactions;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 use App\Transaction;
 use App\SiteSetting;
 use App\Rules\ValidAmount;
+use Carbon\Carbon;
+use Exception;
 
 class TransactionController extends Controller
 {
@@ -100,30 +103,68 @@ class TransactionController extends Controller
         $this->validate($request,[
             "status" => "required|string"
         ]);
-        
-        $transaction = Transaction::find($id);
-        $transaction->status = $request->input('status');
-
-        $user = User::find($transaction->user_id);
-        if($request->input('status') == "approved"){
-            if(empty($user->credit)){
-                //create credit
-                Credit::create([
-                    "user_id" => $user->id,
-                    "amount" => $transaction->amount
-                ]);
-
-            }else{
-                // update credit
-                $credit = Credit::where('user_id',$user->id)->first();
-                $credit->amount = $credit->amount + $transaction->amount;
-                $credit->update();
+        try{
+            $transaction = Transaction::find($id);
+            $transaction->status = $request->input('status');
+            $user = User::find($transaction->user_id);
+            if($request->input('status') == "approved"){
+                if(empty($user->credit)){
+                    //create credit
+                    Credit::create([
+                        "user_id" => $user->id,
+                        "amount" => $transaction->amount
+                    ]);
+    
+                }else{
+                    // update credit
+                    $credit = Credit::where('user_id',$user->id)->first();
+                    $credit->amount = $credit->amount + $transaction->amount;
+                    $credit->update();
+                }
+                // check if there's any campaigns
+                $this->giveCampaignReturn($transaction,$credit);
             }
-            // check if there's any campaigns
+            $transaction->update();
+            alertify("Deposit is accepted.");
+            return redirect()->back();
+        }catch (Exception $e){
+            dd($e);
         }
-        $transaction->update();
-        alertify("Deposit is accepted.");
-        return redirect()->back();
+        
+    }
+
+    private function giveCampaignReturn(Transaction $transaction, Credit $credit)
+    {
+        if($transaction->payment_type == "campaign" && $transaction->payment_type != null){
+            $today = now();
+            $campaign = Campaign::findOrFail(intval($transaction->txn_id));
+            $start = Carbon::parse($campaign->start_date);
+            $end = Carbon::parse($campaign->end_date);
+            if($today->gt($start) && $today->lt($end)){
+                $min = doubleval($campaign->min_amount);
+                $max = doubleval($campaign->max_amount);
+                $amount = doubleval($transaction->amount);
+                if($amount >= $min && $amount <= $max){
+                    $reward = 0.0;
+                    if($campaign->amount_type == "percent"){
+                        $reward = $amount * (doubleval($campaign->reward_amount) / 100);
+                    }else{
+                        $reward = doubleval($campaign->reward_amount);
+                    }
+                    $credit->amount += $reward;
+                    $credit->update();
+
+                    Transaction::create([
+                        'user_id' => $transaction->user_id,
+                        'mobile' => '0',
+                        'type' => 'offerDeposit',
+                        'amount' => $reward,
+                        'status' => 'approved'
+                    ]);
+                }
+            }
+        }
+
     }
 
     public function allWithdraws(Request $request){
