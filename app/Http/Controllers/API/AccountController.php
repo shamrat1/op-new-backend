@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\BetSetting;
+use App\Campaign;
 use App\Credit;
 use App\Http\Controllers\Controller;
 use App\PlacedBet;
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Hash;
 use Validator;
 
 class AccountController extends Controller{
+    public function getOffers()
+    {
+          return response()->json(Campaign::where('status','live')->get());
+    }
 
     public function storeDeposit(Request $request)
     {

@@ -34,6 +34,8 @@ Route::group(["namespace" => "API","middleware" => "cors"],function(){
 
     Route::group(['middleware' => 'auth:api'],function(){
 
+        // offers
+        Route::get('/offers',"AccountController@getOffers");
         // game history place
         Route::post("/place/game/history",'GameHistoryController@placeHistory');
 
