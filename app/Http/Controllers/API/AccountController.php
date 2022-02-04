@@ -34,17 +34,21 @@ class AccountController extends Controller{
        if($validator->fails()){
            return response()->json($validator->messages(),401);
        }
-
-       Transaction::create([
-            'user_id' => auth('api')->id(),
-            'mobile' => $request->input('mobile'),
-            'backend_mobile' => $request->input('backend_mobile'),
-            // 'txn_id' => $request->input('txn_id'),
-            'type' => 'deposit',
-            'payment_method' => $request->input('payment_method'),
-            'amount' => $request->input('amount'),
-            'status' => 'pending'
-       ]);
+       $data = [
+        'user_id' => auth('api')->id(),
+        'mobile' => $request->input('mobile'),
+        'backend_mobile' => $request->input('backend_mobile'),
+        // 'txn_id' => $request->input('txn_id'),
+        'type' => 'deposit',
+        'payment_method' => $request->input('payment_method'),
+        'amount' => $request->input('amount'),
+        'status' => 'pending'
+   ];
+       if($request->has('campaign_id')){
+        $data["txn_id"] = $request->input('campaign_id');
+        $data["payment_type"] = "campaign";
+   }
+       Transaction::create($data);
 
        return response()->json($this->getBasicResponse("ok","New Deposit Request added."));
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Session;
 use Illuminate\Http\Request;
 use App\BannerImage;
+use Exception;
 use File;
 
 
@@ -18,7 +19,6 @@ class BannerImageController extends Controller
     public function delete($id)
     {
         $banner = BannerImage::find($id);
-        dd(File::exists('uploads/banner/' . $banner->image));
         if (File::exists('uploads/banner/'.$banner->image)) {
             File::delete('uploads/banner/' . $banner->image);
         }
@@ -40,26 +40,27 @@ class BannerImageController extends Controller
          $this->validate($request,[
             'image' => 'required|image|mimes:jpg,jpeg,png'
         ]);
-
-        if($request->hasFile('image')){
+        try{
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $filename = time().'.'.$extension;
-            $file->move('uploads/banner/',$filename);
-
+            // $file->move('uploads/banner/',$filename);
+            move_uploaded_file($request->file('image'),public_path().'/uploads/banner/'.$filename);
             $banner = new BannerImage();
             $banner->image = $filename;
-
+            if($request->has('type')){
+                $banner->type = $request->type;
+            }
             $banner->isEnabled = 0;
             $banner->save();
 
             Session::flash('success', 'Banner created successfully');
             return redirect(route('banners.addbanner'));
-        }else{
-            //return $request;
+        } catch (Exception $e){
+            dd($e);
             return redirect()->back()->withErrors("No Image found");
-        }
 
-        
+        }
+       
     }
 }

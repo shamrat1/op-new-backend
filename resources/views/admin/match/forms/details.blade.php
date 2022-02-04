@@ -119,6 +119,7 @@
                     <label for="">Status</label>
                     <select name="status" class="custom-select">
                         <option value="draft" {{ $match->status == "draft" ? "selected" : "" }}>draft</option>
+                        <option value="pending" {{ $match->status == "pending" ? "selected" : "" }}>pending</option>
                         <option value="live" {{ $match->status == "live" ? "selected" : "" }}>live</option>
                         <option value="upcoming" {{ $match->status == "upcoming" ? "selected" : "" }}>upcoming</option>
                         <option value="unpublished" {{ $match->status == "unpublished" ? "selected" : "" }}>Unpublished</option>

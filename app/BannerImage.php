@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class BannerImage extends Model
 {
-    protected $fillable = ['image','isEnabled'];
+    protected $fillable = ['image','isEnabled', 'type'];
 }

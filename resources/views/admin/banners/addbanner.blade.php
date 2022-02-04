@@ -74,10 +74,20 @@
 									@endif
 						<form action="{{route('banners.store')}}" method="post" enctype="multipart/form-data">
 										{{csrf_field()}}
-							<div class="form-group">
+										<div class="form-group">
+											<label for="">Select Type</label>
+											<select name="type" id="type" class="">
+												<option value="">Select Banner Type</option>
+												<option value="app-banner">App Banner</option>
+												<option value="game-image">Game Image</option>
+												<option value="banner">Banner</option>
+											</select>
+										</div>
+										<div class="form-group">
 											<label for="">Upload Banner Image</label>
 											<input type="file" name="image" id="fileToUpload">
 										</div>
+
 							<div class="form-group">
 								<button class="btn btn-outline-success">Save</button>
 							</div>

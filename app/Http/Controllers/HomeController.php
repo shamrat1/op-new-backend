@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         $users = User::count();
-        $matches = Match::with('bids')->whereIn('status',['live','upcoming'])->orderBy('match_time','desc')->get();
+        $matches = Match::with('bids')->whereIn('status',['live','upcoming', 'pending'])->orderBy('match_time','desc')->get();
         return view('dashboard.index')->with([
             "users" => $users,
             "matches" => $matches
