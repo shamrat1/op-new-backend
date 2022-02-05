@@ -48,7 +48,8 @@
 								@foreach ($banner as $item)
 									<tr>							
 									<td>{{ $item->id }}</td>
-									<td><img src="{{ asset('uploads/banner/'.$item->image) }}" alt="$item->image" width="100px" height="60px"></td>
+									<td><img src="{{ asset('uploads/banner/'.$item->image) }}" alt="{{$item->image}}" width="100px" height="60px"></td>
+									<td>{{ $item->type }}</td>
 									<td>
 										<a href="{{ route('banner.status',$item->id) }}" class="btn btn-sm {{ $item->isEnabled ? 'btn-warning' : 'btn-success' }}">{{ $item->isEnabled ? 'Disable' : 'Publish' }}</a>
 										<a href="{{ route('banner.delete',$item->id) }}" class="btn btn-sm btn-danger">Delete</a>
