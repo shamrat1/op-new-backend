@@ -93,7 +93,7 @@
                         <div class="col-5">
                             <div class="card action_accent default_text justify-content-center" style="font-size: 9pt;">
                                 Welcome, {{auth('web')->user()->username}}
-                                <p class="m-0 p-0">&nbsp;<i class="fas fa-coins"></i>&nbsp;{{$credit}}</p>
+                                <p class="m-0 p-0">&nbsp;<i class="fas fa-coins"></i>&nbsp;{{$credit}} <br> <i class="text-danger fas fa-coins"></i>&nbsp;{{auth()->user()->credit->bonus_point ?? 0 }}</p>
                             </div>
                         </div>
                     </div>

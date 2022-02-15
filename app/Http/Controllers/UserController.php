@@ -118,12 +118,23 @@ class UserController extends Controller
 			'credit' => 'required|numeric',
 			'bonus_point' => 'required|numeric',
 		]);
-        $before = User::where('id',$id)->with(['credit:id,user_id,amount'])->select(['id','username'])->first()->toJson();
+        // $before = User::where('id',$id)->with(['credit:id,user_id,amount'])->select(['id','username'])->first()->toJson();
+		$credit = Credit::where('user_id',$id)->first();
+		$amount = $credit->amount;
+		$bonus = $credit->bonus_point;
 		Credit::where('user_id',$id)->first()->update([
 			'amount' => $request->input('credit'),
 			'bonus_point' => $request->input('bonus_point')
 		]);
-        $after = User::where('id',$id)->with(['credit:id,user_id,amount'])->select(['id','username'])->first()->toJson();
+
+		Transaction::create([
+			'user_id' => $id,
+			'amount' => ($amount - intval($request->input('credit') ?? 0)),
+			'mobile' => 0,
+			'type' => 'admin-edit',
+			'status' => 'approved',
+		]);
+        // $after = User::where('id',$id)->with(['credit:id,user_id,amount'])->select(['id','username'])->first()->toJson();
         // TrackActivity::create([
         //    'author' => auth()->user()->username,
         //     'before' => $before,
