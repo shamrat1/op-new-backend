@@ -8,7 +8,8 @@ class Credit extends Model
 {
     protected $fillable = [
         "user_id",
-        "amount"
+        "amount",
+        "bonus_point"
     ];
 
     public function user(){

@@ -115,11 +115,13 @@ class UserController extends Controller
 	public function updateCredit($id, Request $request)
 	{
 		$this->validate($request,[
-			'credit' => 'required|numeric'
+			'credit' => 'required|numeric',
+			'bonus_point' => 'required|numeric',
 		]);
         $before = User::where('id',$id)->with(['credit:id,user_id,amount'])->select(['id','username'])->first()->toJson();
 		Credit::where('user_id',$id)->first()->update([
-			'amount' => $request->input('credit')
+			'amount' => $request->input('credit'),
+			'bonus_point' => $request->input('bonus_point')
 		]);
         $after = User::where('id',$id)->with(['credit:id,user_id,amount'])->select(['id','username'])->first()->toJson();
         // TrackActivity::create([

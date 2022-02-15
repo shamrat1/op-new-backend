@@ -240,6 +240,15 @@
 								</span>
 							@enderror
 						</div>
+						<div class="form-group">
+							<label for="">Bonus Point</label>
+							<input type="text" value="{{ $user->credit != null ? $user->credit->bonus_point : 0 }}" name="bonus_point" class='form-control {{ $errors->has('bonus_point') ? 'is-invalid' : ''}}' required>
+							@error('bonus_point')
+								<span class="invalid-feedback text-danger" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+							@enderror
+						</div>
 					</div>
 					<div class="card-footer text-right">
 						<button type="submit" onclick="confirm('Are you sure to update credit ?')" class="btn btn-danger">Update</button>

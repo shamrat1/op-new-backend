@@ -76,11 +76,12 @@
 							$isAdmin = auth()->user()->hasRole('Admin');
 						@endphp
 						<thead>
-							<tr>
+							<tr class="w100">
 								<th>ID</th>
 								<th>Club</th>
 								<th>Username</th>
 								<th>Credit</th>
+								<th>Bonus Point</th>
 								@if ($isAdmin)
 									<th>Roles</th>
 								@endif
@@ -101,6 +102,7 @@
 
 										{{ $total }}
 									</td>
+									<td> {{ $user->credit->bonus_point ?? 0 }}</td>
 									@if ($isAdmin)
 										<td>
 											@if(count($user->roles) > 0)

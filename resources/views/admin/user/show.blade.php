@@ -26,7 +26,8 @@
 					{{ $user->name }}
 				</div>
 				<div class="card-tools">
-					Credits <span class="text-secondary text-danger">{{ $user->credit->amount }} </span>BDT
+					Credits <span class="text-secondary text-danger">{{ $user->credit->amount }} </span>BDT <br>
+					Bonus Point <span class="text-secondary text-danger">{{ $user->credit->bonus_point }} </span>BDT
 				</div>
 			</div>
 			<div class="card-body">
