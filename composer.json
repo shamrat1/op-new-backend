@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "beyondcode/laravel-websockets": "*",
         "dipeshsukhia/laravel-html-minify": "^1.1",
         "fideloper/proxy": "^4.0",
         "jenssegers/agent": "^2.6",
@@ -17,7 +18,8 @@
         "laravel/tinker": "^1.0",
         "lcobucci/jwt": "3.3.3",
         "nesbot/carbon": "^2.32",
-        "odannyc/laravel-alertify": "^1.0"
+        "odannyc/laravel-alertify": "^1.0",
+        "pusher/pusher-php-server": "~3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

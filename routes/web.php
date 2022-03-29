@@ -17,13 +17,15 @@ use App\Setting;
 
 /**
  */
-Route::get("/test/option","AutoOptionController@index");
+Route::get('/websocket',function(){
+	return view('welcome1');
+});
 Route::get("/auto/login",function (){
 	Auth::loginUsingId(1,true);
 });
 
-Route::get('/reward',function(){
-	dd(150 * (10 /100));
+Route::get('/test',function(){
+	event(new App\Events\TestEvent());
 });
 
 View::composer(['layouts.master', 'layouts.master-auth'], function ($view) {
